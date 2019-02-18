@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        .box {
+            width: 100%;
+            height: auto;
+        }
+
+        .box ul {
+            width: 100%;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .box ul li {
+            width: 100%;
+            height: 50px;
+            position: relative;
+            background: #eee;
+            margin-top: 1px;
+            display: flex;
+            transition: all 0.3s;
+        }
+
+        .text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn {
+            position: absolute;
+            top: 0;
+            right: -50%;
+            width: 50%;
+            height: 100%;
+            display: flex;
+        }
+
+        .btn button {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: none;
+            color: #fff;
+        }
+
+        .btn button:nth-of-type(1) {
+            background: red;
+        }
+
+        .btn button:nth-of-type(2) {
+            background: pink;
+        }
+
+        .btn button:nth-of-type(3) {
+            background: orange;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="box">
+        <ul>
+            <li>
+                <div class="text"></div>
+                <div class="btn">
+                    <button>删除</button>
+                    <button>收藏</button>
+                    <button>置顶</button>
+                </div>
+            </li>
+            <li>
+                <div class="text"></div>
+                <div class="btn">
+                    <button>删除</button>
+                    <button>收藏</button>
+                    <button>置顶</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+</body>
+
+<script>
+
+
+    var li = document.querySelectorAll('li');
+    var li_child = document.querySelectorAll('.btn');
+    var btn = document.querySelectorAll('.btn button');
+
+    var start_num = 0;
+
+    (function () {
+        var len = li.length;
+        for(var i = 0; i < len; i++){
+            item(i);
+        };
+
+        function item(i) {
+            li[i].addEventListener('touchstart', function (e) {
+                start_num = e.changedTouches[0].clientX;
+            }, false);//获取初始坐标
+
+            li[i].addEventListener('touchmove', function (e) {
+                if (e.changedTouches[0].clientX <= start_num) {
+                    this.style = "margin-left:-50%;";
+                } else {
+                    this.style = "margin-left:0%;";
+                };
+            }, false);//如果按下的坐标大于手指移动的坐标就显示右侧，反之隐藏
+
+            li[i].addEventListener('click', function (e) {
+                this.style = "margin-left:0%;";
+            }, false);//点击左侧隐藏右侧
+
+            li_child[i].addEventListener('click', function (e) {
+                window.event ? window.event.cancelBubble = true : e.stopPropagation();
+            }, false);//阻止冒泡事件
+        };
+    })();
+
+    (function () {
+        var len = btn.length;
+        for (var i = 0; i < len; i++) {
+            btn_click(i);
+        };
+
+        function btn_click(i) {
+            btn[i].addEventListener('click', function () {
+                alert("你点击了" + this.innerText);
+            }, false);
+        };
+    })();//按钮点击
+
+
+
+</script>
+
+
+</html>
